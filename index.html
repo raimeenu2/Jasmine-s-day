@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Entry</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body {
+  font-family: 'Comic Sans MS', sans-serif;
+  background: linear-gradient(135deg, #ff9ff3, #feca57);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+}
+
+.headingBox {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.headingBox h1 {
+  text-decoration: underline;
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+.headingBox p {
+  font-size: 1rem;
+}
+
+.whiteCard {
+  background: white;
+  padding: 40px 60px;
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+.columnsTitle {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  gap: 60px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.name {
+  padding: 10px 22px;
+  background: #f1f1f1;
+  border-radius: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.name:hover {
+  transform: scale(1.08);
+}
+
+.correct {
+  background: #48dbfb;
+  color: white;
+  box-shadow: 0 0 15px #1dd1a1, 0 0 30px #48dbfb;
+}
+
+.wrong {
+  background: #ff6b6b;
+  color: white;
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.progressContainer {
+  width: 100%;
+  background: #eee;
+  border-radius: 12px;
+  margin-top: 25px;
+  overflow: hidden;
+  display: none;
+}
+
+.progressBar {
+  height: 14px;
+  width: 0%;
+  background: #1dd1a1;
+  transition: width 0.4s;
+}
+
+#nextButton {
+  margin-top: 25px;
+  padding: 12px 28px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  display: none;
+  background: linear-gradient(45deg, #ff9ff3, #feca57);
+  box-shadow: 0 0 15px #1dd1a1;
+}
+</style>
+</head>
+<body>
+
+<div class="headingBox">
+  <h1>Happiest Birthday, Jasmine!!</h1>
+  <p>Jasmine Ji, Eh password bhar te, agge tere lyi chote-mote surprise aa ??</p>
+</div>
+
+<div class="whiteCard">
+
+  <div class="columnsTitle">
+    <div>Neeli Pari ??</div>
+    <div>Peeli Pari ??</div>
+  </div>
+
+  <div class="container">
+    <div class="column" id="neeli">
+      <div class="name" data-match="Pintu">Swayam Sharma</div>
+      <div class="name" data-match="Chintu">Sahaj Sharma</div>
+      <div class="name" data-match="Chotta Don">Jasmine</div>
+      <div class="name" data-match="Bitu">Isha Sharma</div>
+    </div>
+
+    <div class="column" id="peeli"></div>
+  </div>
+
+  <div class="progressContainer">
+    <div class="progressBar" id="progressBar"></div>
+  </div>
+
+  <button id="nextButton" onclick="enterSite()">Chal hun Party de ??</button>
+</div>
+
+<script>
+const peeliNames = ['Pintu', 'Chintu', 'Chotta Don', 'Bitu'];
+const shuffled = peeliNames.sort(() => Math.random() - 0.5);
+const peeliDiv = document.getElementById('peeli');
+
+shuffled.forEach(name => {
+  const div = document.createElement('div');
+  div.className = 'name';
+  div.textContent = name;
+  peeliDiv.appendChild(div);
+});
+
+let selectedNeeli = null;
+let matched = 0;
+const total = 4;
+
+// select left
+document.querySelectorAll('#neeli .name').forEach(n => {
+  n.addEventListener('click', () => {
+    if (selectedNeeli) selectedNeeli.style.outline = '';
+    selectedNeeli = n;
+    n.style.outline = '2px solid #ff9ff3';
+  });
+});
+
+// match right
+document.querySelectorAll('#peeli .name').forEach(p => {
+  p.addEventListener('click', () => {
+    if (!selectedNeeli) return;
+
+    if (selectedNeeli.dataset.match === p.textContent) {
+      selectedNeeli.classList.add('correct');
+      p.classList.add('correct');
+      selectedNeeli.style.outline = '';
+      selectedNeeli = null;
+      matched++;
+      updateProgress();
+    } else {
+      p.classList.add('wrong');
+      setTimeout(() => p.classList.remove('wrong'), 400);
+    }
+  });
+});
+
+function updateProgress() {
+  const bar = document.getElementById('progressBar');
+  document.querySelector('.progressContainer').style.display = 'block';
+  bar.style.width = (matched / total) * 100 + '%';
+
+  if (matched === total) {
+    setTimeout(() => {
+      document.getElementById('nextButton').style.display = 'block';
+    }, 600);
+  }
+}
+
+function enterSite() {
+  sessionStorage.setItem('allowed', 'true');
+  window.location.href = 'index.html';
+}
+</script>

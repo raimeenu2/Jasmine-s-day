@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Obviously</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="card">
+
+  <h2>Things She Loves ??</h2>
+
+  <div class="slider">
+    <button onclick="showSlide(0)">?? Elvish</button>
+    <button onclick="showSlide(1)">?? Heels</button>
+    <button onclick="showSlide(2)">? Her</button>
+  </div>
+
+  <div class="slide active">
+    <img src="assets/images/Elvish.jpg">
+    <p>Uhmm, Uhm! Jijuu!! ??</p>
+  </div>
+
+  <div class="slide">
+    <img src="assets/images/Ysl.jpg">
+    <p>Because heels are not just footwear, they’re an attitude ??</p>
+  </div>
+
+  <div class="slide">
+    <img src="assets/images/Jasmine.png">
+    <p>The main character. Always. No debate ?</p>
+  </div>
+
+</div>
+
+<a href="index.html" class="back-btn">? Back</a>
+
+<script>
+function showSlide(index) {
+  const slides = document.querySelectorAll('.slide');
+  slides.forEach(slide => slide.classList.remove('active'));
+  slides[index].classList.add('active');
+}
+</script>
+
+</body>
+</html>
